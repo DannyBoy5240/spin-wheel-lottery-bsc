@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+}
+body {
+    background-image: url(./../img/woodenBg.jpg);
+    background-size: auto;
+}
+#app {
+    position: relative;
+    height: 600px;
+    width: 600px;
+    margin: 0 auto;
+}
+.marker {
+    position: absolute;
+    width: 80px;
+    left: 176px;
+    top: 5px;
+    z-index: 2;
+    height: 45px;
+    width: 50px;
+}
+
+.button {
+    display: block;
+    height: 140px;
+    width: 200px;
+    cursor: pointer;
+}
+.button:hover {
+    opacity: 0.8;
+}
+.blur {
+    animation: blur 10s;
+}
+.result {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 50px;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+}
+h2 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: lighter;
+    color: wheat;
+    font-size: 40px;
+    margin: 0 20px;
+    margin-top: 10px;
+}
+#mySelect,
+#lock {
+    margin: 0 20px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 20px;
+    background-color: wheat;
+}
+#lock {
+    background-color: green;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: wheat;
+    border: 5px ridge gray;
+}
+
+.selection,
+.selection form {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+.black {
+    background-color: black;
+    border-radius: 30px;
+    border: 5px ridge silver;
+}
+.red {
+    background-color: red;
+    border-radius: 30px;
+    border: 5px ridge silver;
+}
+.green {
+    background-color: green;
+    border-radius: 30px;
+    border: 5px ridge silver;
+}
+
+@keyframes blur {
+    0% {
+        filter: blur(0.5px);
+    }
+    30% {
+        filter: blur(1px);
+    }
+    50% {
+        filter: blur(2px);
+    }
+    80% {
+        filter: blur(1.5px);
+    }
+    95% {
+        filter: blur(0px);
+    }
+}

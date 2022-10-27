@@ -1,0 +1,53 @@
+{
+  "name": "spin_wheel_lottery",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ethersproject/providers": "^5.7.2",
+    "@metamask/detect-provider": "^2.0.0",
+    "@mui/icons-material": "^5.10.9",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "ethers": "^5.7.2",
+    "express": "^4.18.2",
+    "fs-extra": "^10.1.0",
+    "mui-image": "^1.0.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.2",
+    "react-scripts": "5.0.1",
+    "solc": "^0.8.17",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "use-sound": "^4.0.1",
+    "web-vitals": "^2.1.4",
+    "web3": "^1.8.0",
+    "web3-eth-contract": "^1.8.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
