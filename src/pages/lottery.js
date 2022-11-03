@@ -11,7 +11,11 @@ import AttractionsIcon from '@mui/icons-material/Attractions';
 
 import useSound from 'use-sound';
 
-import Img_Wheel from './../assets/img/wheel.png'
+import Img_Wheel5 from './../assets/img/wheel_5.png'
+import Img_Wheel8 from './../assets/img/wheel_8.png'
+import Img_Wheel10 from './../assets/img/wheel_10.png'
+import Img_Wheel15 from './../assets/img/wheel_15.png'
+
 import Img_Marker from './../assets/img/marker.png'
 import Img_Spin from './../assets/img/spin.png'
 import Img_Connect from './../assets/img/connect.png'
@@ -22,7 +26,7 @@ import winAudio from './../assets/audio/winAudio.mp3'
 import './../assets/css/style.css'
 
 import lotteryContractAbi from './../contracts/lotteryContract.json'
-const contractAddress = '0x9AD7e154B8aDd086594eB6aF1C515172F65FfF4f'
+const contractAddress = '0xAe57Cd30d9D36D520f7F3E9315098e36b2090A30'
 
 import { Web3ReactProvider } from "@web3-react/core";
 
@@ -86,10 +90,12 @@ const ImageMarked = styled('span')(({ theme }) => ({
 const Lottery = () => {
 
     const spinCounts = ['1', '2', '3', '5', '10', '15'];
+    const spinItemCounts = ['5', '8', '10', '15'];
     const wheelElement = useRef(null);
     const buySpin = useRef(null);
     const [currentAccount, setCurrentAccount] = useState(null);
     const [curSpinCount, setCurSpinCount] = useState(1);
+    const [curSpinItemCount, setCurSpinItemCount] = useState(8);
     const [spinCount, setSpinCount] = useState(0);
     const [open, setOpen] = useState(0);
     const [buySpinLoading, setBuySpinLoading] = useState(false);
@@ -173,22 +179,62 @@ const Lottery = () => {
             const provider = new ethers.providers.Web3Provider(ethereum);
             const signer = provider.getSigner();
             const lotteryContract = new ethers.Contract(contractAddress,lotteryContractAbi, signer)
-            await lotteryContract.play();
+            await lotteryContract.play(curSpinItemCount);
             // run the wheel
             wheelElement.current.style.transition = 'all 5s ease';
-            wheelElement.current.style.transform = `rotate(${3600}deg)`;
+            wheelElement.current.style.transform = `rotate(${1800}deg)`;
          // wheelElement.current.classList.add('blur');
             // get player game result
             let value = await lotteryContract.getresult(currentAccount); 
             value = parseInt(value);
-            var deg = Math.floor(1800 + (Math.random()*45+(value-1)*45)-22.5);
+            var step = 360/curSpinItemCount;
+            var deg = Math.floor(1800 + (Math.random()*step+(value-1)*step)-step/2);
             wheelElement.current.style.transform = `rotate(${deg}deg)`;
 
             // Notification
             setTimeout(() => {
                 console.log(value);
                 // notification
-                setOpen(value);
+                var val = 0;
+                if ( curSpinItemCount == 5 ) {
+                    if (value == 1)   val = 1;
+                    else if (value == 2) val = 2;
+                    else if (value == 3) val = 5;
+                    else if (value == 4) val = 6;
+                    else val = 8;
+                } else if ( curSpinItemCount == 8 ) {
+                    val = value;
+                } else if ( curSpinItemCount == 10) {
+                    if (value == 1)   val = 1;
+                    else if (value == 2)  val = 8;
+                    else if (value == 3)  val = 2;
+                    else if (value == 4)  val = 3;
+                    else if (value == 5)  val = 4;
+                    else if (value == 6)  val = 5;
+                    else if (value == 7)  val = 6;
+                    else if (value == 8)  val = 8;
+                    else if (value == 9)  val = 9;
+                    else if (value == 10)  val = 2;
+                } else {
+                    if (value == 1)   val = 1;
+                    else if (value == 2)  val = 8;
+                    else if (value == 3)  val = 3; 
+                    else if (value == 4)  val = 2;
+                    else if (value == 5)  val = 5; 
+                    else if (value == 6)  val = 4;
+                    else if (value == 7)  val = 7;
+                    else if (value == 8)  val = 6;
+                    else if (value == 9)  val = 3;
+                    else if (value == 10)  val = 8;
+                    else if (value == 11)  val = 1;
+                    else if (value == 12)  val = 4;
+                    else if (value == 13) val = 2;
+                    else if (value == 14)  val = 7;
+                    else if (value == 15)  val = 2;
+                }
+                console.log(val);
+                setOpen(val);
+                getAccountSpinCounts(currentAccount);
                 // play win spin audio effect
                 play_win_audio();
             }, 5000);
@@ -226,7 +272,9 @@ const Lottery = () => {
                     <Grid item xs={8} mt={5}>
                             <img src={Img_Marker} align="center" width="30px" height="50px" />
                         <Box>
-                            <img className="wheel" draggable="false" src={Img_Wheel} ref={wheelElement} />
+                            <img className="wheel" draggable="false" src={
+                               (curSpinItemCount==5)?Img_Wheel5:((curSpinItemCount==8)?Img_Wheel8:(curSpinItemCount==10)?Img_Wheel10:Img_Wheel15)
+                            } ref={wheelElement} />
                         </Box>
                         <h1 id="result" className="result" />
                         <Box className="selection">
@@ -279,6 +327,22 @@ const Lottery = () => {
                         {
                             currentAccount !== null ?
                                 <Grid container mt={5} ref={buySpin}>
+                                    <Grid item xs={5} mt={2} ml={2}>
+                                        <Typography fontSize={18} fontWeight={8} color={'white'}>Spin Wheel Counts </Typography>
+                                    </Grid>
+                                    <Grid item xs={5} align='center' ml={2}>
+                                        <Autocomplete
+                                            disablePortal
+                                            id="combo-spin-item-count"
+                                            options={spinItemCounts}
+                                            sx={{ width: 150 }}
+                                            defaultValue={'8'}
+                                            onChange={(event) => {
+                                                setCurSpinItemCount(+event.target.innerHTML);
+                                            }}
+                                        renderInput={(params) => <TextField {...params} label="Spin Counts to Buy" />}
+                                            />
+                                    </Grid>
                                     <Grid item xs={7} align="center">
                                         <Button
                                         style={{textTransform: 'none'}}
@@ -331,7 +395,7 @@ const Lottery = () => {
 
                 <Snackbar
                     anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-                    open={open?true:false}
+                    open={open>=1?true:false}
                     autoHideDuration={6000}
                     onClose={handleNotificationClose}>
                         <Alert onClose={handleNotificationClose} severity="info" sx={{ width: '100%' }}>
