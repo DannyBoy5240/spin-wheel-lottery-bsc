@@ -6,7 +6,6 @@ import Lottery from './pages/lottery.js'
 import { Web3ReactProvider } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 
-import Container from '@mui/material/Container'
 
 //this will give instance of library we want ether.js or web3.js i prefer use ether.js
 function getLibrary(provider) {
@@ -17,7 +16,6 @@ function getLibrary(provider) {
 
 function App() {
   return (
-    <Container>
       <Web3ReactProvider getLibrary={getLibrary}>
           <Fragment>
             <Router>
@@ -27,7 +25,6 @@ function App() {
             </Router>
         </Fragment>
       </Web3ReactProvider>     
-    </Container>
   );
 }
 
